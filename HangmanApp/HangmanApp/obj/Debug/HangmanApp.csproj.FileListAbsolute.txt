@@ -1,0 +1,7 @@
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\bin\Debug\HangmanApp.exe.config
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\bin\Debug\HangmanApp.exe
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\bin\Debug\HangmanApp.pdb
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\obj\Debug\HangmanApp.csproj.AssemblyReference.cache
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\obj\Debug\HangmanApp.csproj.CoreCompileInputs.cache
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\obj\Debug\HangmanApp.exe
+C:\Users\Ottom\Desktop\ElevenFiftyProjects\100SD\Hangman\HangmanApp\HangmanApp\obj\Debug\HangmanApp.pdb
