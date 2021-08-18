@@ -32,33 +32,31 @@ namespace HangmanApp
             while (continueToRun)
             {
                 Console.Clear();
-                Console.Write("Welcome to Hangman\n" +
-                    "Press any key to choose your category and turns.");
-                Console.ReadKey();
+                if (numberOfGamesPlayed == 0)
+                {
+                    Console.WriteLine("  Welcome to Hangman.\n");
+
+                    Console.WriteLine("  Press any key to configure a game.");
+                    Console.ReadKey();
+                }
                 word = PickCategoryAndWord();
                 Console.Write("\n(for testing purposes) The hidden word is: " + word + "\n" +
-                    "Enter the number of guesses you would like to have per word: ");
+                    "Enter the number of guesses you want for this round: ");
                 string stringInput = Console.ReadLine();
-                int intInput = Convert.ToInt32(stringInput);
-                AssignAndRunNumberOfTurns(intInput);
+                AssignAndRunNumberOfTurns(Convert.ToInt32(stringInput));
 
-                
                 guessedLetters.Clear();
-                
             }
         }
 
   
         //FEATURES TO ADD
-        //A way to keep score that does not delete between the rounds
+        //only display "welcome to hangman..." if numberofroundsplayed is 0, else take the user straight to the screen where they choose categories
+        //
+
         //if the user doesn't guess the entire word before their turns are up, it should reveal the word
-        //if we store this value we can show the user statistics on their games like win percentage
-        //thats one way we could do it, we could keep it as a percentage
 
-        //winPercent = 100 * (totalWins / totalGamesPlayed)
-
-
-        // - (extra feature if we have time for it) start the round with one letter already revealed to help the user guess. Ask the user if they would like to start with a hint? 
+        // - (extra feature if we have time for it) start the round with one letter already revealed to help the user make their first guess. Ask the user if they would like to start the round with a hint? 
 
         
 
@@ -77,10 +75,6 @@ namespace HangmanApp
             else
             {
                 Console.WriteLine("\nPlease enter a single valid character.");
-                foreach (var item in guessedLetters)
-                {
-                    Console.Write(item + " ");
-                }
                 ContinueMessage();
                 GetGuess();
             }
@@ -104,7 +98,7 @@ namespace HangmanApp
             {
                 if (guessedLetters.Contains(wordLetter))
                 {
-                    Console.Write(" " + wordLetter + " ");
+                    Console.Write(" " + Convert.ToString(wordLetter).ToUpper() + " ");
                 }
                 else
                 {
@@ -114,20 +108,27 @@ namespace HangmanApp
         }
         public void ContinueMessage()
         {
-            Console.WriteLine("Enter any character to continue...");
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
         public string PickCategoryAndWord()
         {
             Console.Clear();
             Random rand = new Random();
-            Console.Write("\nWhat category would you like to play?\n" +
-                "1. Cities\n" +
-                "2. Animals\n" +
-                "3. Food And Drinks\n" +
-                "Enter the category number you want to play: ");
+            Console.Write("\n  CATEGORIES:\n\n" +
+                " (1) Cities\n" +
+                " (2) Animals\n" +
+                " (3) Food And Drinks\n" +
+                " \nEnter the category number you want to play: ");
             string input = Console.ReadLine();
+            while (input.Length > 1)
+            {
+                Console.Write("INVALID INPUT: Please enter a single number\n" +
+                    "Enter the category number you want to play: ");
+                input = Console.ReadLine();
+            }
             int intInput = Convert.ToInt32(input);
+
             switch (intInput)
             {
                 case 1:
@@ -147,9 +148,8 @@ namespace HangmanApp
                     return city[indexxxx];
                     break;
             }
-
-
         }
+        
         /*   public string help()
             {
                 Console.WriteLine("Do you want a hint?\n"+
@@ -165,24 +165,26 @@ namespace HangmanApp
             }
 
         */
-
         
         public void DisplayWinPercentage()
         {
             winPercentage = 100 * (numberOfGamesWon / numberOfGamesPlayed);
-            Console.WriteLine("Your current win percentage: " + winPercentage + "%.");
+            //Console.WriteLine("");
+
+            Console.WriteLine("Current win percentage: " + (int)winPercentage + "%");
+            Console.WriteLine("games played: " + numberOfGamesPlayed + "\n" + "games won: " + numberOfGamesWon);
         }
         
         public void AssignAndRunNumberOfTurns(int numberOfTurns)
         {
-            
             for (int i = numberOfTurns; i > 0; i--,numberOfTurns--)
             {
                 GetGuess();
+                //this will run if the player wins
                 if (CheckIfWordIsGuessed()) {
                     Console.Clear();
                     DisplayWord();
-                    Console.WriteLine("\nYou Win!");
+                    Console.WriteLine("\n\nYou Win!");
                     numberOfGamesWon++;
                     numberOfGamesPlayed++;
                     DisplayWinPercentage();
@@ -190,14 +192,16 @@ namespace HangmanApp
                     break;
                 }
             }
-            if (numberOfTurns <= 0 && !CheckIfWordIsGuessed())
+            //this will run if the player loses
+            if (!CheckIfWordIsGuessed())
             {
+                numberOfGamesPlayed++;
+                Console.WriteLine("\nYou Lost.\n" +
+                    "The word was '" + word + "'");
+                
                 DisplayWinPercentage();
                 ContinueMessage();
             }
-                    numberOfGamesPlayed++;
-            
         }
-
     }
 }
