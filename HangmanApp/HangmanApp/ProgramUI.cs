@@ -8,8 +8,8 @@ namespace HangmanApp
 {
     public class ProgramUI
     {
-
-        string[] city = { "london", "tokyo", "paris", "berlin", "washington", "budapest", "bangkok" };
+        //themed categories of words
+        string[] city = { "london", "tokyo", "paris", "berlin", "washington", "budapest", "bangkok", "fishers" };
 
         string[] animal = { "donkey", "goat", "horse", "cat", "sheep", "penguin", "kangaroo", "rabbit", "goldfish" };
 
@@ -20,12 +20,15 @@ namespace HangmanApp
         {
             Menu();
         }
-
+        //the word the player is trying to guess
         string word;
+        //stores every character the player has already guessed for the current word, resets every round
         List<char> guessedLetters = new List<char>();
+        //win stats
         double numberOfGamesPlayed = 0;
         double numberOfGamesWon = 0;
         double winPercentage = 0.0;
+        //runs the welcome screen, runs the method to pick the category and word, and asks the user for a value to run the number of turns
         public void Menu()
         {
             bool continueToRun = true;
@@ -34,14 +37,14 @@ namespace HangmanApp
                 Console.Clear();
                 if (numberOfGamesPlayed == 0)
                 {
-                    Console.WriteLine("  Welcome to Hangman.\n");
-
-                    Console.WriteLine("  Press any key to configure a game.");
+                    Console.WriteLine("\n  Welcome to Hangman.\n");
+                    Console.Write("  Press any key to begin the ultimate hang man experience. \n  ");
                     Console.ReadKey();
                 }
                 word = PickCategoryAndWord();
-                Console.Write("\n(for testing purposes) The hidden word is: " + word + "\n" +
-                    "Enter the number of guesses you want for this round: ");
+                //for testing purposes
+                Console.Write("\n The hidden word is: " + word + "\n");
+                Console.Write("How many guesses would you like to complete the word: ");
                 string stringInput = Console.ReadLine();
                 AssignAndRunNumberOfTurns(Convert.ToInt32(stringInput));
 
@@ -51,16 +54,18 @@ namespace HangmanApp
 
   
         //FEATURES TO ADD
-        //only display "welcome to hangman..." if numberofroundsplayed is 0, else take the user straight to the screen where they choose categories
-        //
+        
+        //display number of guesses left after each guess
 
-        //if the user doesn't guess the entire word before their turns are up, it should reveal the word
+        //add more words to each catalog
 
-        // - (extra feature if we have time for it) start the round with one letter already revealed to help the user make their first guess. Ask the user if they would like to start the round with a hint? 
+        //show the player what letters have already been guessed
+
+        //start the round with one letter already revealed to help the user make their first guess. Ask the user if they would like to "start the round with a hint?"
 
         
 
-
+        //METHODS
 
         //GetGuess - takes in a guess from the user, if the guess is valid(if it is a single character) it will add the guessed character to the list of characters the user has guessed.
         public void GetGuess()
@@ -79,6 +84,8 @@ namespace HangmanApp
                 GetGuess();
             }
         }
+
+        //CheckIfWordIsGuesses - returns true if every letter of the word has been guessed, returns false if the player has not guessed every letter in the word.
         public bool CheckIfWordIsGuessed()
         {
             bool completed = true;
@@ -91,6 +98,8 @@ namespace HangmanApp
             }
             return completed;
         }
+
+        //DisplayWord - prints a " _ " for letters of the word that have not been guessed, and if the player has guessed the letter it will print that letter
         public void DisplayWord()
         {
             
@@ -106,11 +115,15 @@ namespace HangmanApp
                 }
             }
         }
+
+        //ContinueMessage - prompts the user with a question to "press any key to continue...". this is a good way to prevent the next action from happening until the user is ready
         public void ContinueMessage()
         {
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
+
+        //displays the available categories to the user, then promts the user to pick a category to draw a random word from.
         public string PickCategoryAndWord()
         {
             Console.Clear();
@@ -121,6 +134,7 @@ namespace HangmanApp
                 " (3) Food And Drinks\n" +
                 " \nEnter the category number you want to play: ");
             string input = Console.ReadLine();
+            //this will display if the player enters a number that is not a single digit
             while (input.Length > 1)
             {
                 Console.Write("INVALID INPUT: Please enter a single number\n" +
@@ -149,23 +163,19 @@ namespace HangmanApp
                     break;
             }
         }
-        
-        /*   public string help()
-            {
-                Console.WriteLine("Do you want a hint?\n"+
-                    "1. Yes\n"+
-                    "2. No\n"+
-                    "Enter the number: ");
-                string input = Console.ReadLine();
-                int wantHint = Convert.ToInt32(input);
-                
 
-    // the only way i can think of is you make a Dictionary with the key being the word and the value being the hint
-    
-            }
-
-        */
         
+        /*public string help()
+          {
+             Console.WriteLine("Do you want a hint?\n"+
+             "1. Yes\n"+
+             "2. No\n"+
+             "Enter the number: ");
+             string input = Console.ReadLine();
+             int wantHint = Convert.ToInt32(input);
+            }*/
+
+        //prints the win rate as a percentage, number of wins, and number of games played
         public void DisplayWinPercentage()
         {
             winPercentage = 100 * (numberOfGamesWon / numberOfGamesPlayed);
@@ -174,7 +184,8 @@ namespace HangmanApp
             Console.WriteLine("Current win percentage: " + (int)winPercentage + "%");
             Console.WriteLine("games played: " + numberOfGamesPlayed + "\n" + "games won: " + numberOfGamesWon);
         }
-        
+
+        //takes in an integer that will be the number of times the user will get to guess.
         public void AssignAndRunNumberOfTurns(int numberOfTurns)
         {
             for (int i = numberOfTurns; i > 0; i--,numberOfTurns--)
@@ -182,11 +193,11 @@ namespace HangmanApp
                 GetGuess();
                 //this will run if the player wins
                 if (CheckIfWordIsGuessed()) {
-                    Console.Clear();
-                    DisplayWord();
-                    Console.WriteLine("\n\nYou Win!");
                     numberOfGamesWon++;
                     numberOfGamesPlayed++;
+                    Console.Clear();
+                    DisplayWord();
+                    Console.WriteLine("\n\n You Win!");
                     DisplayWinPercentage();
                     ContinueMessage();
                     break;
@@ -196,7 +207,7 @@ namespace HangmanApp
             if (!CheckIfWordIsGuessed())
             {
                 numberOfGamesPlayed++;
-                Console.WriteLine("\nYou Lost.\n" +
+                Console.WriteLine("\n You Lost.\n" +
                     "The word was '" + word + "'");
                 
                 DisplayWinPercentage();
