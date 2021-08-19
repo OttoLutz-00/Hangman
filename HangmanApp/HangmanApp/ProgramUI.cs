@@ -18,6 +18,7 @@ namespace HangmanApp
 
         public void Run()
         {
+            //i dont need to seed any content, but this is where i would.
             Menu();
         }
         //the word the player is trying to guess
@@ -63,14 +64,7 @@ namespace HangmanApp
             }
         }
 
-
         //FEATURES TO ADD
-        //display the current category the user is in, (CITIES, ANIMALS, FOOD & DRINK)
-
-        //(do this last if we have time)start the round with one letter already revealed to help the user make their first guess. Ask the user if they would like to "start the round with a hint?"
-
-
-        // and if the word is "museum" and 'm' is chosen it needs to reveal both and not just one 'm', just something to watch out for.
 
 
         //METHODS
@@ -97,6 +91,7 @@ namespace HangmanApp
             }
         }
 
+        //DisplayCategory - displays the name of the category the player picked
         public void DisplayCategory()
         {
             Console.WriteLine("Category: " + category);
@@ -142,7 +137,7 @@ namespace HangmanApp
             Console.ReadKey();
         }
 
-        //displays the available categories to the user, then promts the user to pick a category to draw a random word from.
+        //PickCategoryAndWord - displays the available categories to the user, then promts the user to pick a category to draw a random word from.
         public string PickCategoryAndWord()
         {
             Console.Clear();
@@ -186,10 +181,8 @@ namespace HangmanApp
             }
             
         }
-        //im going to test now
-        //just figured out that i can't put that switch after the other one because it wont run, i will make a method to contain the stuff
               
-        //asks the user if they want a hint, if yes then the displayword method will reveal the a random letter from word.
+        //AskUserForHint - asks the user if they want a hint, if yes then the displayword method will reveal the a random letter from word.
         public void AskUserForHint()
         {
             Console.Write("Would you like to start the round with a hint? (y/n): ");
@@ -210,7 +203,7 @@ namespace HangmanApp
             ContinueMessage();
         }
 
-        //runs inside the AskUserForHint method if the user accepts the hint, the method will then take a random letter from word and add it to the list of guessed letters
+        //AddHintedLetterToGuessedLetters - runs inside the AskUserForHint method if the user accepts the hint, the method will then take a random letter from word and add it to the list of guessed letters
         public void AddHintedLetterToGuessedLetters()
         {
             Random rand = new Random();
@@ -220,7 +213,7 @@ namespace HangmanApp
             
         }
         
-        //prints the win rate as a percentage, also prints the number of wins, and number of games played
+        //DisplayWinPercentage - prints the win rate as a percentage, also prints the number of wins, and number of games played
         public void DisplayWinPercentage()
         {
             winPercentage = 100 * (numberOfGamesWon / numberOfGamesPlayed);
@@ -230,7 +223,7 @@ namespace HangmanApp
             Console.WriteLine("games played: " + numberOfGamesPlayed + "\n" + "games won: " + numberOfGamesWon);
         }
 
-        //takes in an integer that will be the number of times the user will get to guess.
+        //AssignAndRunNumberOfTurns - takes in an integer that will be the number of times the user will get to guess.
         public void AssignAndRunNumberOfTurns(int numberOfTurns)
         {
             for (int i = numberOfTurns; i > 0; i--,guessesLeft--)
@@ -267,7 +260,7 @@ namespace HangmanApp
             Console.WriteLine("\n\n  Guesses Remaining: " + guessesLeft);
         }
 
-        // - shows the player each letter that they have already guessed
+        //DisplayGuessedLetters - shows the player each letter that they have already guessed
         public void DisplayGuessedLetters()
         {
             Console.Write("\n  Guessed Letters:");
@@ -277,6 +270,5 @@ namespace HangmanApp
             }
             Console.WriteLine();
         }
-
     }
 }
