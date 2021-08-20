@@ -70,9 +70,8 @@ namespace HangmanApp
         //METHODS
 
         //GetGuess - takes in a guess from the user, if the guess is valid(if it is a single character) it will add the guessed character to the list of characters the user has guessed.
-        public void GetGuess()
+        public char GetGuess()
         {
-
             Console.Clear();
             DisplayCategory();
             DisplayWord();
@@ -80,14 +79,16 @@ namespace HangmanApp
             DisplayGuessedLetters();
             Console.Write("\n  Enter a guess: ");
             string guess = Console.ReadLine();
-            if (guess.Length == 1)
-                guessedLetters.Add(Convert.ToChar(guess));
-
+            if (guess.Length == 1) {
+                char letter = Convert.ToChar(guess);
+                guessedLetters.Add(letter);
+                return letter;
+            } 
             else
             {
                 Console.WriteLine("\nPlease enter a single valid character.");
                 ContinueMessage();
-                GetGuess();
+                return GetGuess();
             }
         }
 
@@ -149,7 +150,7 @@ namespace HangmanApp
                 " \nEnter the category number you want to play: ");
             string input = Console.ReadLine();
             //this will display if the player enters a number that is not a single digit
-            while (input.Length > 1)
+            while (input.Length != 1)
             {
                 Console.Write("INVALID INPUT: Please enter a single number\n" +
                     "Enter the category number you want to play: ");
@@ -228,8 +229,13 @@ namespace HangmanApp
         {
             for (int i = numberOfTurns; i > 0; i--,guessesLeft--)
             {
-                GetGuess();
+                char guessLetter = GetGuess();
 
+                if (word.Contains(guessLetter))
+                {
+                    guessesLeft++;
+                    numberOfTurns++;
+                }
                 //this will run if the player wins
                 if (CheckIfWordIsGuessed()) {
                     numberOfGamesWon++;
